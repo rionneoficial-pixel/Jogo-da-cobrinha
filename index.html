@@ -3,42 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jogo da Cobrinha</title>
+  <title>Batalha Elemental</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="game-shell">
-    <section class="hud">
-      <div>
-        <p class="eyebrow">Arcade local</p>
-        <h1>Cobrinha</h1>
-      </div>
-      <div class="scoreboard">
-        <div class="score-card">
-          <span class="label">Score</span>
-          <strong id="score">0</strong>
-        </div>
-        <div class="score-card">
-          <span class="label">Recorde</span>
-          <strong id="high-score">0</strong>
-        </div>
-      </div>
-    </section>
+  <main class="app-shell">
+    <aside class="hero-panel">
+      <p class="eyebrow">RPG de exploracao</p>
+      <h1>Batalha Elemental</h1>
+      <p class="hero-copy">
+        Explore florestas, deserto, lago magico e ruinas antigas. Derrote os monstros espalhados pelo mapa usando seu poder elemental.
+      </p>
 
-    <section class="board-wrap">
-      <canvas id="game" width="480" height="480" aria-label="Tabuleiro do jogo da cobrinha"></canvas>
-      <div class="overlay" id="overlay">
-        <p id="message">Pressione uma seta para começar</p>
-        <button id="restart" type="button">Reiniciar</button>
-      </div>
-    </section>
+      <section class="status-grid">
+        <article class="status-card">
+          <span>Personagem</span>
+          <strong id="summary-character">Nao escolhido</strong>
+        </article>
+        <article class="status-card">
+          <span>Poder</span>
+          <strong id="summary-power">Nao escolhido</strong>
+        </article>
+        <article class="status-card">
+          <span>Ambiente</span>
+          <strong id="summary-biome">Preparacao</strong>
+        </article>
+        <article class="status-card">
+          <span>Vida</span>
+          <strong id="summary-life">100 / 100</strong>
+        </article>
+        <article class="status-card">
+          <span>Monstros</span>
+          <strong id="summary-monsters">0</strong>
+        </article>
+        <article class="status-card">
+          <span>Missao</span>
+          <strong id="summary-goal">Escolher heroi</strong>
+        </article>
+      </section>
 
-    <section class="instructions">
-      <p>Use as setas ou WASD para mover.</p>
-      <p>Coma os quadrados dourados e não bata na parede ou em você mesmo.</p>
+      <section class="guide-card">
+        <h2>Controles</h2>
+        <p>`WASD` ou setas para caminhar pelo mapa.</p>
+        <p>`Espaco` para atacar o monstro ao lado.</p>
+        <p>Use o botao de ataque se preferir clicar.</p>
+      </section>
+
+      <section class="guide-card" id="biome-card">
+        <h2 id="biome-title">Ambiente atual</h2>
+        <p id="biome-description">Escolha seu personagem para comecar a aventura.</p>
+      </section>
+    </aside>
+
+    <section class="game-panel">
+      <div class="canvas-wrap">
+        <canvas id="game" width="768" height="576" aria-label="Mapa do jogo"></canvas>
+
+        <section class="overlay-screen active" id="character-overlay">
+          <div class="overlay-card">
+            <p class="step">Etapa 1</p>
+            <h2>Escolha seu personagem</h2>
+            <div class="choice-grid">
+              <button class="choice-card" type="button" data-character="mulher">
+                <span class="avatar">🧝‍♀️</span>
+                <strong>Luna</strong>
+                <span class="choice-text">Heroina agil pronta para explorar o mapa.</span>
+              </button>
+
+              <button class="choice-card" type="button" data-character="homem">
+                <span class="avatar">🧙‍♂️</span>
+                <strong>Kael</strong>
+                <span class="choice-text">Mago aventureiro preparado para enfrentar as ruinas.</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="overlay-screen" id="power-overlay">
+          <div class="overlay-card">
+            <p class="step">Etapa 2</p>
+            <h2>Escolha seu poder</h2>
+            <div class="choice-grid power-grid">
+              <button class="choice-card power-card fire" type="button" data-power="fogo">
+                <span class="avatar">🔥</span>
+                <strong>Fogo</strong>
+                <span class="choice-text">Explosao forte e impacto alto.</span>
+              </button>
+
+              <button class="choice-card power-card water" type="button" data-power="agua">
+                <span class="avatar">💧</span>
+                <strong>Agua</strong>
+                <span class="choice-text">Ataque equilibrado com pequena cura.</span>
+              </button>
+
+              <button class="choice-card power-card wind" type="button" data-power="vento">
+                <span class="avatar">🌪️</span>
+                <strong>Vento</strong>
+                <span class="choice-text">Golpe rapido com maior alcance visual.</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="overlay-screen hidden" id="message-overlay">
+          <div class="overlay-card narrow">
+            <p class="step" id="message-step">Aventura</p>
+            <h2 id="message-title">Explore o mapa</h2>
+            <p class="hero-copy" id="message-body"></p>
+            <button class="action-button" id="message-button" type="button">Continuar</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="bottom-panel">
+        <article class="player-card">
+          <div class="fighter-head">
+            <span class="battle-avatar" id="player-avatar">🧝‍♀️</span>
+            <div>
+              <p class="step">Heroi</p>
+              <h2 id="player-name">Luna</h2>
+            </div>
+          </div>
+          <p class="power-badge" id="player-power">Poder: Fogo</p>
+          <div class="life-block">
+            <div class="life-track">
+              <div class="life-fill player-fill" id="player-life-fill"></div>
+            </div>
+            <strong id="player-life-text">100 / 100</strong>
+          </div>
+        </article>
+
+        <article class="controls-card">
+          <p class="step">Acoes</p>
+          <div class="controls">
+            <button class="action-button" id="attack-button" type="button">Atacar</button>
+            <button class="secondary-button" id="restart-button" type="button">Recomecar</button>
+          </div>
+        </article>
+
+        <article class="log-card">
+          <p class="step">Diario de aventura</p>
+          <div class="battle-log" id="battle-log" aria-live="polite"></div>
+        </article>
+      </section>
     </section>
   </main>
 
