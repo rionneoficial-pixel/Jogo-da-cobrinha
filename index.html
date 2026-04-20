@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Cobrinha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <section class="hud">
+      <div>
+        <p class="eyebrow">Arcade local</p>
+        <h1>Cobrinha</h1>
+      </div>
+      <div class="scoreboard">
+        <div class="score-card">
+          <span class="label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="score-card">
+          <span class="label">Recorde</span>
+          <strong id="high-score">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="board-wrap">
+      <canvas id="game" width="480" height="480" aria-label="Tabuleiro do jogo da cobrinha"></canvas>
+      <div class="overlay" id="overlay">
+        <p id="message">Pressione uma seta para começar</p>
+        <button id="restart" type="button">Reiniciar</button>
+      </div>
+    </section>
+
+    <section class="instructions">
+      <p>Use as setas ou WASD para mover.</p>
+      <p>Coma os quadrados dourados e não bata na parede ou em você mesmo.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
